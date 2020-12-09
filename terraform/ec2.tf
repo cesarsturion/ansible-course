@@ -1,7 +1,7 @@
 resource "aws_instance" "instance" {
    count         = var.instance_count
-   ami           = data.aws_ami.ubuntu.id
-   instance_type = "t3.micro"
+   ami           = data.aws_ami.ubuntu-18_04.id
+   instance_type = "t2.micro"
 
    ebs_block_device {
       device_name = "/dev/sdg"

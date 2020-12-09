@@ -1,4 +1,15 @@
-## EKS private subnets
+## VPC
+resource "aws_vpc" "vpc" {
+  cidr_block           = var.vpc_cidr_block
+  enable_dns_hostnames = true
+  enable_dns_support = true
+
+  tags = {
+    "Name"                                      = "${var.tagName}-vpc"
+  }
+}
+
+## private subnets
 resource "aws_subnet" "private-subnet" {
   count             = var.az_count
   cidr_block        = cidrsubnet(aws_vpc.vpc.cidr_block, 8, count.index)
@@ -10,7 +21,7 @@ resource "aws_subnet" "private-subnet" {
   }
 }
 
-## EKS public subnets
+## public subnets
 resource "aws_subnet" "public-subnet" {
   count = var.az_count
   # var.az_count é usado para não conflitar com o private
